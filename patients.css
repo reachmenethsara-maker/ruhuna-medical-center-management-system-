@@ -1,0 +1,315 @@
+/* mypatients.css */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #e2e8f0;
+    
+}
+
+/* SIDEBAR – KEPT SAME */
+.sidebar {
+    width: 240px;
+    height: 100vh;                /* FIXED */
+    background: linear-gradient(180deg, #07216a, #1e40af);
+    color: #ffffff;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+
+.logo {
+    text-align: center;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.sidebar h4 {
+    text-align: center;
+    margin-bottom: 20px;
+    margin-left: 10px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 10px;
+    flex: 1;
+}
+
+.sidebar ul li {
+    padding: 14px 20px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.sidebar ul li a {
+    color: #ffffff;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.sidebar ul li a i {
+    color: #ffffff;
+}
+
+.sidebar ul li:hover,
+.sidebar ul li.active {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/* LOGOUT BUTTON - matching the second code example */
+.logout {
+    margin-top: auto;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.logout a {
+    color: #ff6b6b;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 20px;
+    border-radius: 8px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.logout a:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.logout a i {
+    color: #ff6b6b;
+}
+
+.sidebar ul li.logout a,
+.sidebar ul li.logout a i {
+    color: #ff6b6b;
+}
+
+
+/* MAIN CONTENT - REMOVED BACKGROUND-IMAGE CONFLICT */
+.main {
+    margin-left: 240px;
+    min-height: 100vh;
+    padding: 20px;
+    background: linear-gradient(135deg, #cacedd 0%, #665d92 100%);
+    backdrop-filter: blur(6px);
+    /* REMOVE THIS LINE: background-image: url(reportscover.jpg); */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-image: url(cover5.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+/* PAGE TITLE */
+.content h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color:#061f63;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+    display: inline-block;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* SEARCH BAR */
+.search-container {
+    max-width: 400px;
+    margin-bottom: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.search-box {
+    position: relative;
+}
+
+.search-box input {
+    padding-left: 45px;
+    height: 45px;
+    border-radius: 25px;
+    border: 2px solid #e2e8f0;
+    transition: 0.3s;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.search-box input:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+    transform: translateY(-2px);
+}
+
+.search-box i {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #64748b;
+}
+
+/* CARD */
+.card {
+    border-radius: 16px;
+    border: none;
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 10px 30px rgba(15, 23, 42, 0.15);
+    margin-top: 15px;
+    overflow: hidden;
+    position: relative;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.card::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 5px;
+    height: 100%;
+    background: linear-gradient(180deg, #2563eb, #3b82f6);
+}
+
+/* CARD HEADER */
+.card-header {
+    background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+    border-bottom: 2px solid #e2e8f0;
+    padding: 20px 25px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.card-header h5 {
+    margin: 0;
+    font-weight: 600;
+    color: #1e40af;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* TABLE */
+.table-responsive {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.table {
+    margin-bottom: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.table thead {
+    background: linear-gradient(135deg, #f8fafc, #f1f5f9);
+}
+
+.table th {
+    font-weight: 700;
+    color: #1e40af;
+    padding: 15px;
+    font-size: 0.9rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.table td {
+    padding: 14px 15px;
+    color: #475569;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.table tbody tr {
+    transition: 0.2s ease;
+}
+
+.table tbody tr:hover {
+    background: rgba(37, 99, 235, 0.05);
+}
+
+/* ACTION BUTTONS */
+.btn-sm {
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.btn-outline-primary {
+    border: 2px solid #2563eb;
+    color: #2563eb;
+}
+
+.btn-outline-primary:hover {
+    background: #2563eb;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.btn-outline-secondary {
+    border: 2px solid #64748b;
+    color: #64748b;
+}
+
+.btn-outline-secondary:hover {
+    background: #64748b;
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* MODALS */
+.modal-header {
+    background: linear-gradient(135deg, #07216a, #1e40af);
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.modal-header .btn-close {
+    filter: invert(1);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+    }
+
+    .main {
+        margin-left: 0;
+        padding: 15px;
+    }
+
+    .search-container {
+        max-width: 100%;
+    }
+}
+
+/* ADD THIS TO ENSURE ALL TEXT ELEMENTS USE THE FONT */
+h1, h2, h3, h4, h5, h6, p, span, div, input, textarea, select, button, label, th, td, li, a {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}

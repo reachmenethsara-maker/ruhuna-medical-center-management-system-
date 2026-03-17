@@ -21,7 +21,12 @@ $stmt->bind_param("sssssssssi", $email, $first, $last, $gender, $nic, $dob, $add
 
 $stmt->execute();
 
+if ($page_name == 'doctordash') {
 
+    header("Location: doctordash.php");
+} elseif ($page_name == 'patientdash') {
+    header("Location: patientdash.php");
+}  elseif ($page_name == 'staffdash') {
     header("Location: staffdash.php");
-
+}
 ?>

@@ -1,193 +1,162 @@
-<?php session_start();
-include "../db.php";
-if (!isset($_SESSION['user_id']) || $_SESSION['role_id'] != 4) {
-    header("Location: ../loginpage/loginpage.php");
-    exit();
+<?php
+session_start();
+include("db.php");
+
+// ---------------------------
+// Check if doctor is logged in
+// ---------------------------
+$user_id = $_SESSION['user_id'] ?? null;
+if (!$user_id) {
+    die("You are not logged in!");
 }
-$user_id = $_SESSION['user_id'];
-$stmt = $conn->prepare("SELECT patient_id,first_name,last_name FROM patient WHERE user_id=?");
+
+// ---------------------------
+// Fetch doctor details
+// ---------------------------
+// Use INNER JOIN if every doctor has a user
+$sql = "SELECT d.Doctor_name, d.speciality, u.user_name, d.email, u.user_id
+        FROM doctor d
+        INNER JOIN user u ON d.user_id = u.user_id
+        WHERE u.user_id = ?";
+
+$stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
 $result = $stmt->get_result();
-$row = $result->fetch_assoc();
-$patient_name = $row['first_name'] . " " . $row['last_name'];
+$doctor = $result->fetch_assoc();
 
-// ------------------ Get patient details ------------------
-$stmt = $conn->prepare("SELECT * FROM patient WHERE user_id=?");
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$patient_result = $stmt->get_result();
-$patient = $patient_result->fetch_assoc();
-
-// ------------------ Get medical records ------------------
-// Also join doctor table to get Doctor_name
-$records_stmt = $conn->prepare("
-    SELECT mr.record_id, mr.visit_date, mr.diagnosis, mr.prescription, mr.file_path, d.Doctor_name
-    FROM medical_record mr
-    LEFT JOIN doctor d ON mr.doctor_id = d.user_id
-    WHERE mr.patient_id = ?
-    ORDER BY mr.visit_date DESC
-");
-$records_stmt->bind_param("i", $patient['patient_id']);
-$records_stmt->execute();
-$records_result = $records_stmt->get_result();
+// If doctor record is missing
+// if (!$doctor) {
+//     die("Doctor profile not found. Please contact admin.");
+// }
 ?>
 
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-    <title>Patient Profile & Medical Records</title>
-    <link rel="stylesheet" href="patient_style.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <style>
-        body {
-            background: #f4f6f9;
-            font-family: Arial;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Doctor Dashboard</title>
 
-        .header {
-            background: #1e3a8a;
-            color: white;
-            padding: 20px;
-            text-align: center;
-            font-size: 26px;
-        }
+<!-- Bootstrap & Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 
-        .card {
-            border: none;
-            border-radius: 12px;
-            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
-        }
+<style>
+/* =======================
+    SIDEBAR
+======================= */
+.sidebar {
+    width: 240px;
+    height: 100vh;
+    position: fixed;
+    top:0; left:0;
+    background:#00008B;
+    color:#fff;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    padding:20px 0;
+}
+.sidebar .logo { text-align:center; margin-bottom:20px; }
+.sidebar .logo img { width:70px; border-radius:50%; border:2px solid #fff; margin-bottom:10px; }
+.sidebar h4 { text-align:center; margin-bottom:20px; }
+.sidebar ul { list-style:none; padding:0; }
+.sidebar ul li { margin-bottom:10px; }
+.sidebar ul li a {
+    color:#fff; text-decoration:none;
+    display:flex; align-items:center;
+    padding:10px 20px; border-radius:8px;
+    transition:.3s;
+}
+.sidebar ul li a i { margin-right:10px; font-size:18px; }
+.sidebar ul li a:hover, .sidebar ul li a.active { background:#0056b3; }
+.sidebar .logout a { background:#ffc107; display:flex; align-items:center; padding:10px 20px; border-radius:8px; color:#000; text-decoration:none; }
+.sidebar .logout a:hover { background:#e0a800; }
 
-        .profile-title {
-            font-weight: bold;
-            color: #1e3a8a;
-        }
-    </style>
+/* =======================
+    MAIN CONTENT
+======================= */
+.main { margin-left:260px; padding:30px; background:#f4f6f9; min-height:100vh; }
+.main h2 { margin-bottom:25px; color:#2a5298; }
+.doctor-card {
+    background:white;
+    padding:25px;
+    border-radius:12px;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+}
+.doctor-card table { width:100%; }
+.doctor-card table th, .doctor-card table td { padding:10px; vertical-align:middle; }
+.doctor-card table th { width:200px; background:#e9f2ff; text-align:left; }
+
+/* Responsive */
+@media(max-width:768px){
+    .sidebar { width:100%; height:auto; position:relative; }
+    .main { margin-left:0; padding:20px; }
+}
+</style>
 </head>
-
 <body>
 
-    <?php include("sidebar.php"); ?>
-    <div class="main">
-        <?php include("topbar.php"); ?>
 
-        <div class="container-fluid p-4">
-            <div class="container mt-4">
-                <div class="card p-4">
-                    <div class="header">Patient Profile & Medical Records</div>
-
-                    <div class="container mt-4">
-                        <div class="card p-4">
-                            <h3><?php echo $patient['first_name'] . " " . $patient['last_name']; ?></h3>
-
-                            <table class="table table-bordered mt-3">
-                                <tr>
-                                    <th class="profile-title">Patient ID</th>
-                                    <td><?php echo $patient['patient_id']; ?></td>
-                                </tr>
-                                <tr>
-                                    <th class="profile-title">Gender</th>
-                                    <td><?php echo $patient['gender']; ?></td>
-                                </tr>
-                                <tr>
-                                    <th class="profile-title">Date of Birth</th>
-                                    <td><?php echo $patient['date_of_birth']; ?></td>
-                                </tr>
-                                <tr>
-                                    <th class="profile-title">Phone</th>
-                                    <td><?php echo $patient['phone']; ?></td>
-                                </tr>
-                                <tr>
-                                    <th class="profile-title">Email</th>
-                                    <td><?php echo $patient['email']; ?></td>
-                                </tr>
-                                <tr>
-                                    <th class="profile-title">Patient Type</th>
-                                    <td><?php echo $patient['patient_type']; ?></td>
-                                </tr>
-                                <tr>
-                                    <th class="profile-title">Blood Type</th>
-                                    <td><?php echo $patient['blood_type']; ?></td>
-                                </tr>
-                                <tr>
-                                    <th class="profile-title">Academic Year</th>
-                                    <td><?php echo $patient['academic_yr']; ?></td>
-                                </tr>
-                                <tr>
-                                    <th class="profile-title">Faculty</th>
-                                    <td><?php echo $patient['faculty']; ?></td>
-                                </tr>
-                                <tr>
-                                    <th class="profile-title">Accommodation Type</th>
-                                    <td><?php echo $patient['accomodation_type']; ?></td>
-                                </tr>
-                                <tr>
-                                    <th class="profile-title">Medical History</th>
-                                    <td><?php echo $patient['medical_history']; ?></td>
-                                </tr>
-                                <tr>
-                                    <th class="profile-title">Surgical History</th>
-                                    <td><?php echo $patient['surgical_history']; ?></td>
-                                </tr>
-                                <tr>
-                                    <th class="profile-title">Family History</th>
-                                    <td><?php echo $patient['family_history']; ?></td>
-                                </tr>
-                                <tr>
-                                    <th class="profile-title">Marital Status</th>
-                                    <td><?php echo $patient['marital_status']; ?></td>
-                                </tr>
-                            </table>
-
-                            <h4 class="mt-4">Medical Records</h4>
-                            <table class="table table-bordered mt-2">
-                                <tr>
-                                    <th>Visit Date</th>
-                                    <th>Doctor</th>
-                                    <th>Diagnosis</th>
-                                    <th>Prescription</th>
-                                    <th>File</th>
-                                </tr>
-                                <?php if ($records_result && $records_result->num_rows > 0) { ?>
-                                    <?php while ($record = $records_result->fetch_assoc()) { ?>
-                                        <tr>
-                                            <td><?php echo $record['visit_date']; ?></td>
-                                            <td><?php echo $record['Doctor_name'] ?? "Unknown"; ?></td>
-                                            <td><?php echo $record['diagnosis']; ?></td>
-                                            <td><?php echo $record['prescription']; ?></td>
-                                            <td>
-                                                <?php
-                                                if (!empty($record['file_path'])) {
-                                                    ?>
-                                                    <a href="../Doctor_Panel/<?php echo $record['file_path']; ?>"
-                                                        target="_blank">View File</a>
-                                                <?php
-                                                } else {
-                                                    echo "No File";
-                                                }
-                                                ?>
-                                            </td>
-                                        </tr>
-                                    <?php } ?>
-                                <?php } else { ?>
-                                    <tr>
-                                        <td colspan="5" class="text-center">No medical records found.</td>
-                                    </tr>
-                                <?php } ?>
-                            </table>
-
-                            <a href="patientdash.php" class="btn btn-primary mt-2">Back to Dashboard</a>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
+<div class="sidebar">
+    <div class="logo">
+        <img src="mclogo.png" alt="MC Logo">
     </div>
-</body>
 
+    <h4><b>DOCTOR PANEL</b></h4>
+
+    <ul class="nav flex-column">
+        <li><a href="doctordash.php"><i class="bi bi-house"></i> Dashboard</a></li>
+        <li><a href="mypatients.php"><i class="bi bi-person-lines-fill"></i> My Patients</a></li>
+        <li><a href="appointments.php"><i class="bi bi-calendar2-week"></i> Appointments</a></li>
+        <li><a href="Reports.php"><i class="bi bi-journal-medical"></i> Reports</a></li>
+        <li><a href="settings.php"><i class="bi bi-gear"></i> Settings</a></li>
+        <!-- <li><a href="profile.php" class="active"><i class="bi bi-person-circle"></i> My Profile</a></li> -->
+    </ul>
+
+    <!-- LOGOUT AT BOTTOM -->
+    <div class="logout">
+        <a href="logout.php"><i class="bi bi-box-arrow-right"></i> Logout</a>
+    </div>
+</div>
+
+<!-- =======================
+    MAIN CONTENT
+======================= -->
+<div class="main">
+    <h2><i class="bi bi-person-circle"></i> My Profile</h2>
+
+    <!-- Doctor Details Table -->
+    <div class="doctor-card">
+        <tbody>
+    <tr>
+        <th>User ID</th>
+        <td><?= htmlspecialchars($doctor['user_id'] ?? 'N/A'); ?></td>
+    </tr>
+    <tr>
+        <th>Doctor Name</th>
+        <td><?= htmlspecialchars($doctor['Doctor_name'] ?? 'Not Assigned'); ?></td>
+    </tr>
+    <tr>
+        <th>Specialty</th>
+        <td><?= htmlspecialchars($doctor['speciality'] ?? 'Not Assigned'); ?></td>
+    </tr>
+    <tr>
+        <th>Username</th>
+        <td><?= htmlspecialchars($doctor['user_name'] ?? 'N/A'); ?></td>
+    </tr>
+    <tr>
+        <th>Email</th>
+        <td><?= htmlspecialchars($doctor['email'] ?? 'Not Assigned'); ?></td>
+    </tr>
+</tbody>
+        </table>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>
+
+<?php $conn->close(); ?>

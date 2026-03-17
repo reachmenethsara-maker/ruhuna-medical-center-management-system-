@@ -1,0 +1,405 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: #f5f7fb;
+    overflow-x: hidden;
+}
+
+/* Sidebar - UNCHANGED */
+.sidebar {
+    width: 240px;
+    height: 100vh;
+    background: linear-gradient(180deg, #07216a, #1e40af);
+    color: #ffffff;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.logo {
+    text-align: center;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.sidebar h4 {
+    text-align: center;
+    margin-bottom: 20px;
+    margin-left: 10px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 10px;
+}
+
+.sidebar ul li {
+    padding: 14px 20px;
+    margin-bottom: 8px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.sidebar ul li a {
+    color: #ffffff;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+}
+
+.sidebar ul li a i {
+    color: #ffffff;
+}
+
+.sidebar ul li:hover,
+.sidebar ul li.active {
+    background: rgba(255,255,255,0.15);
+}
+
+.logout {
+    margin-top: auto;
+    padding: 10px;
+    margin-bottom: 10px;
+}
+
+.logout a {
+    color: #ff6b6b;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 20px;
+    border-radius: 8px;
+}
+
+.logout a:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.logout a i {
+    color: #ff6b6b;
+}
+
+.sidebar ul li.logout a,
+.sidebar ul li.logout a i {
+    color: #ff6b6b;
+}
+
+/* Main Area */
+.main {
+    margin-left: 240px;
+    min-height: 100vh;
+    background: #f5f7fb;
+    padding: 20px;
+}
+
+/* REMOVED: Doctor Welcome Card Section */
+
+/* Cards - Only showing the 3 main cards in background slider */
+.cards {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    min-height: 100vh; /* Takes full viewport height */
+    padding: 40px 20px;
+}
+
+.card {
+    background: linear-gradient(135deg, #ffffff, #f8fafc);
+    border-radius: 24px;
+    width: 320px;
+    height: 260px;
+    padding: 35px;
+    text-align: center;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, #2563eb, #3b82f6);
+    border-radius: 24px 24px 0 0;
+}
+
+.card i {
+    font-size: 48px;
+    margin-bottom: 20px;
+    transition: transform 0.3s ease;
+}
+
+.card h2 {
+    margin-bottom: 10px;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1e293b;
+    letter-spacing: 0.5px;
+}
+
+.card p {
+    color: #64748b;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+.card:hover {
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+}
+
+.card:hover i {
+    transform: scale(1.1);
+}
+
+/* Card Colors */
+.card.blue::before {
+    background: linear-gradient(90deg, #2563eb, #3b82f6);
+}
+
+.card.green::before {
+    background: linear-gradient(90deg, #16a34a, #22c55e);
+}
+
+.card.orange::before {
+    background: linear-gradient(90deg, #f97316, #fb923c);
+}
+
+.blue i { 
+    color: #2563eb;
+    background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+    padding: 15px;
+    border-radius: 50%;
+}
+
+.green i { 
+    color: #16a34a;
+    background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+    padding: 15px;
+    border-radius: 50%;
+}
+
+.orange i { 
+    color: #f97316;
+    background: linear-gradient(135deg, #ffedd5, #fed7aa);
+    padding: 15px;
+    border-radius: 50%;
+}
+
+/* Background Slider - MODIFIED: Now takes full main area */
+.background-slider {
+    position: relative;
+    width: 100%;
+    min-height: calc(100vh - 40px); /* Full height minus padding */
+    overflow: hidden;
+    border-radius: 20px;
+}
+
+.background-slider::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    animation: slideBg 20s infinite ease-in-out;
+    z-index: 0;
+}
+
+.background-slider::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(245, 247, 251, 0.85), rgba(248, 250, 252, 0.7));
+    z-index: 1;
+    border-radius: 20px;
+}
+
+.cards {
+    position: relative;
+    z-index: 2;
+}
+
+@keyframes slideBg {
+    0%, 25% { 
+        background-image: url("cover1.jpg"); 
+        opacity: 1;
+    }
+    33%, 58% { 
+        background-image: url("cover2.jpg"); 
+        opacity: 1;
+    }
+    66%, 91% { 
+        background-image: url("cover3.jpg"); 
+        opacity: 1;
+    }
+    100% { 
+        background-image: url("cover4.jpg"); 
+        opacity: 1;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .cards {
+        flex-wrap: wrap;
+        gap: 30px;
+        padding: 30px 20px;
+    }
+    
+    .card {
+        width: 300px;
+        height: 250px;
+    }
+}
+
+@media (max-width: 992px) {
+    .main {
+        margin-left: 0;
+    }
+    
+    .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        min-height: auto;
+    }
+    
+    .cards {
+        min-height: auto;
+        padding: 30px 20px;
+    }
+    
+    .background-slider {
+        min-height: calc(100vh - 40px);
+    }
+}
+
+@media (max-width: 768px) {
+    .cards {
+        flex-direction: column;
+        gap: 25px;
+    }
+    
+    .card {
+        width: 100%;
+        max-width: 350px;
+        height: 220px;
+        padding: 25px;
+    }
+    
+    .background-slider {
+        margin: 0;
+        min-height: calc(100vh - 40px);
+    }
+}
+
+@media (max-width: 480px) {
+    .main {
+        padding: 15px;
+    }
+    
+    .card {
+        height: 200px;
+        padding: 20px;
+    }
+    
+    .card i {
+        font-size: 40px;
+        margin-bottom: 15px;
+    }
+    
+    .card h2 {
+        font-size: 1.3rem;
+    }
+    
+    .background-slider {
+        border-radius: 15px;
+    }
+}
+/* Main container */
+.main {
+    flex: 1;
+    padding: 40px;
+    background-color: #f4f6fa;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center; /* center horizontally */
+    align-items: center;     /* center vertically */
+}
+
+/* Doctor profile card */
+.doctor-card {
+    background-color: #ffffff;
+    padding: 30px 40px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+/* Card hover effect */
+.doctor-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Doctor name */
+.doctor-card h3 {
+    font-size: 28px;
+    margin-bottom: 15px;
+    color: #1e3a8a;
+}
+
+/* Specialty, username, email */
+.doctor-card p {
+    font-size: 16px;
+    color: #333333;
+    margin-bottom: 10px;
+}
+
+/* Bold labels */
+.doctor-card b {
+    color: #1e3a8a;
+}
+
+/* Responsive adjustments */
+@media (max-width: 576px) {
+    .doctor-card {
+        padding: 20px;
+    }
+    .doctor-card h3 {
+        font-size: 24px;
+    }
+}
