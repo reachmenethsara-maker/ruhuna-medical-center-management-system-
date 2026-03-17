@@ -1,0 +1,120 @@
+* {
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    background: #f4f6f9;
+    padding: 30px;
+}
+
+/* Container */
+.container {
+    max-width: 1200px;
+    margin: auto;
+}
+
+/* Title */
+h2 {
+    color: #0d6efd;
+    margin-bottom: 20px;
+}
+
+/* Filters */
+.filter-box {
+    background: #ffffff;
+    padding: 15px;
+    border-radius: 10px;
+    display: flex;
+    gap: 15px;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.filter-box select,
+.filter-box input,
+.filter-box button {
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+.filter-box button {
+    background: #0d6efd;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.filter-box button:hover {
+    background: #084298;
+}
+
+/* Table */
+.table-box {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+
+/* Status colors */
+.pending {
+    color: #ffc107;
+    font-weight: 600;
+}
+
+.approved {
+    color: #0d6efd;
+    font-weight: 600;
+}
+
+.completed {
+    color: #198754;
+    font-weight: 600;
+}
+
+/* Buttons */
+button {
+    padding: 6px 10px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.approve {
+    background: #0d6efd;
+    color: white;
+}
+
+.cancel {
+    background: #dc3545;
+    color: white;
+}
+
+.complete {
+    background: #198754;
+    color: white;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .filter-box {
+        flex-direction: column;
+    }
+}

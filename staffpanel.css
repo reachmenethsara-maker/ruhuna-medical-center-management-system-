@@ -1,0 +1,318 @@
+/* =========================
+   GLOBAL SETTINGS
+========================= */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background:#f4f6f9;
+}
+
+
+/* =========================
+   SIDEBAR
+========================= */
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:230px;
+    height:100%;
+    background:linear-gradient(180deg,#0d47a1,#001f54);
+    color:#fff;
+    transition:0.3s;
+    z-index:1000;
+}
+
+.sidebar .logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:18px;
+    border-bottom:1px solid rgba(255,255,255,0.2);
+}
+
+.sidebar .logo img{
+    width:100px;
+    height:100px;
+    border-radius:6px;
+}
+
+.sidebar .logo h2{
+    font-size:25px;
+    font-weight:500;
+}
+
+.sidebar ul{
+    list-style:none;
+    margin-top:10px;
+}
+
+.sidebar ul li a{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:14px 20px;
+    color:#fff;
+    text-decoration:none;
+    font-size:16px;
+    transition:0.3s;
+}
+
+.sidebar ul li a:hover{
+    background:#0d6efd;
+    padding-left:26px;
+}
+
+.sidebar ul li a.active{
+    background:#0d6efd;
+    border-left:4px solid #28a745;
+}
+
+.sidebar ul li.logout{
+    position:absolute;
+    bottom:1;
+   
+    width:100%;
+}
+
+.sidebar ul li.logout a{
+    background:#dc3545;
+}
+
+.sidebar ul li.logout a:hover{
+    background:#b02a37;
+}
+
+
+/* =========================
+   MAIN CONTENT
+========================= */
+
+.main{
+    margin-left:230px;
+    padding:25px;
+    transition:0.3s;
+}
+
+
+/* =========================
+   TOPBAR
+========================= */
+
+.topbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    background:linear-gradient(180deg,#0d47a1,#001f54);
+    padding:15px 20px;
+    border-radius:10px;
+    box-shadow:0 2px 10px rgba(0,0,0,0.08);
+    margin-bottom:20px;
+}
+
+.topbar h3{
+    color:#ffffff;
+}
+
+.top-right{
+    display:flex;
+    align-items:center;
+    gap:15px;
+}
+
+.add-user-btn{
+    background:#28a745;
+    color:#fff;
+    padding:8px 15px;
+    border-radius:6px;
+    text-decoration:none;
+    font-size:14px;
+    transition:0.3s;
+}
+
+.add-user-btn:hover{
+    background:#218838;
+}
+
+.admin-name{
+    color:#0d6efd;
+    font-weight:600;
+}
+
+
+/* =========================
+   CONTAINER CARD
+========================= */
+
+.container{
+    background:#fff;
+    padding:25px;
+    border-radius:10px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.08);
+}
+
+.container h2{
+    margin-bottom:15px;
+    color:#0d6efd;
+}
+
+
+/* =========================
+   FORM DESIGN
+========================= */
+
+form input,
+form select{
+    width:100%;
+    padding:10px;
+    border-radius:6px;
+    border:1px solid #ccc;
+    margin-bottom:10px;
+    transition:0.3s;
+}
+
+form input:focus,
+form select:focus{
+    border-color:#0d6efd;
+    outline:none;
+}
+
+form button{
+    padding:10px 18px;
+    border:none;
+    border-radius:6px;
+    background:#0d6efd;
+    color:#fff;
+    cursor:pointer;
+    font-weight:500;
+    transition:0.3s;
+}
+
+form button:hover{
+    background:#0b5ed7;
+}
+
+
+/* =========================
+   TABLE DESIGN
+========================= */
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:20px;
+}
+
+th{
+    background:#0d6efd;
+    color:#fff;
+    padding:12px;
+}
+
+td{
+    padding:12px;
+    border-bottom:1px solid #ddd;
+    text-align:center;
+}
+
+tr:nth-child(even){
+    background:#f9f9f9;
+}
+
+tr:hover{
+    background:#f1f5ff;
+}
+
+
+/* =========================
+   ACTION BUTTONS
+========================= */
+
+.actions a{
+    text-decoration:none;
+    padding:6px 10px;
+    border-radius:4px;
+    font-size:13px;
+}
+
+.actions a:first-child{
+    background:#0d6efd;
+    color:#fff;
+}
+
+.actions a:last-child{
+    background:#dc3545;
+    color:#fff;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:768px){
+
+.sidebar{
+    width:70px;
+}
+
+.sidebar .logo h2{
+    display:none;
+}
+
+.main{
+    margin-left:70px;
+}
+
+.topbar{
+    flex-direction:column;
+    gap:10px;
+}
+
+}
+
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:25px;
+    padding:30px;
+}
+
+.card{
+    background:white;
+    border-radius:16px;
+    padding:30px;
+    text-align:center;
+    box-shadow:0 10px 25px rgba(0,0,0,0.08);
+    transition:0.3s;
+    text-decoration:none;
+    color:#333;
+}
+
+.card i{
+    font-size:40px;
+    margin-bottom:15px;
+}
+
+.card h2{
+    margin-bottom:5px;
+}
+
+.card:hover{
+    transform:translateY(-6px);
+}
+
+/* Card Icon Colors */
+
+.blue i{ color:#2563eb; }
+.green i{ color:#16a34a; }
+.orange i{ color:#f97316; }
+.red i{ color:#dc2626; }

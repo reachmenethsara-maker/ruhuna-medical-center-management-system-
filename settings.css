@@ -1,0 +1,56 @@
+@import url('reports.css');
+
+/* Override page-specific elements if needed */
+.content h2 {
+    margin-left: 40px;
+    letter-spacing: 2px;
+    color: #0f172a;
+}
+
+/* Settings cards spacing */
+.card {
+    max-width: 700px;
+}
+
+/* Password button */
+.btn-danger {
+    background: linear-gradient(135deg, #7f1d1d, #ef4444);
+    border: none;
+    border-radius: 12px;
+    padding: 12px 26px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-danger:hover {
+    background: linear-gradient(135deg, #7f1d1d, #7f1d1d);
+    transform: translateY(-2px);
+}
+
+/* Input focus */
+.form-control:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+.logout {
+    margin-top: auto;
+    padding: 20px;
+}
+
+.logout a {
+    color: #ff6b6b;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 20px;
+    border-radius: 8px;
+}
+
+.logout a:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.logout a i {
+    color: #ff6b6b;
+}

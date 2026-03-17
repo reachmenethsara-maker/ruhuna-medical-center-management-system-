@@ -1,0 +1,263 @@
+/* logout.css */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: linear-gradient(135deg, #081861 0%, #ba9adb 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.logout-container {
+    max-width: 450px;
+    width: 100%;
+    text-align: center;
+    animation: fadeIn 0.8s ease;
+}
+
+.logout-card {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.logout-icon {
+    font-size: 4rem;
+    color: #667eea;
+    margin-bottom: 20px;
+    animation: bounce 1s infinite alternate;
+}
+
+.logout-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.logout-message {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+.doctor-name {
+    color: #667eea;
+    font-weight: 600;
+}
+
+.progress-container {
+    margin: 30px 0;
+}
+
+.progress {
+    height: 8px;
+    border-radius: 4px;
+    background: #f0f0f0;
+    overflow: hidden;
+}
+
+.progress-bar {
+    background: linear-gradient(90deg, #667eea, #764ba2);
+    width: 0%;
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.3s ease;
+    animation: progressFill 3s linear forwards;
+}
+
+.logout-timer {
+    font-size: 0.9rem;
+    color: #888;
+    margin-top: 10px;
+    font-weight: 500;
+}
+
+.logout-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 30px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 12px 30px;
+    border-radius: 50px;
+    font-weight: 600;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+}
+
+.btn-login {
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+}
+
+.btn-login:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+    color: white;
+}
+
+.btn-home {
+    background: white;
+    color: #667eea;
+    border: 2px solid #667eea;
+}
+
+.btn-home:hover {
+    background: #667eea;
+    color: white;
+    transform: translateY(-3px);
+}
+
+.security-note {
+    margin-top: 25px;
+    padding: 15px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    border-left: 4px solid #28a745;
+    text-align: left;
+}
+
+.security-note h6 {
+    color: #28a745;
+    font-weight: 600;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.security-note p {
+    font-size: 0.9rem;
+    color: #666;
+    margin: 0;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes bounce {
+    from {
+        transform: translateY(0);
+    }
+    to {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes progressFill {
+    0% {
+        width: 0%;
+    }
+    100% {
+        width: 100%;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 576px) {
+    .logout-card {
+        padding: 30px 20px;
+    }
+    
+    .logout-title {
+        font-size: 1.5rem;
+    }
+    
+    .logout-icon {
+        font-size: 3rem;
+    }
+    
+    .btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .logout-actions {
+        flex-direction: column;
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .logout-card {
+        background: rgba(30, 30, 40, 0.95);
+        color: #fff;
+    }
+    
+    .logout-title {
+        color: #fff;
+    }
+    
+    .logout-message {
+        color: #ccc;
+    }
+    
+    .security-note {
+        background: rgba(40, 40, 50, 0.8);
+    }
+    
+    .security-note p {
+        color: #ccc;
+    }
+    
+    .btn-home {
+        background: transparent;
+        color: #fff;
+        border: 2px solid #fff;
+    }
+    
+    .btn-home:hover {
+        background: #fff;
+        color: #333;
+    }
+}
+
+/* Print styles */
+@media print {
+    body {
+        background: white !important;
+    }
+    
+    .logout-card {
+        box-shadow: none !important;
+        border: 1px solid #ddd !important;
+    }
+    
+    .logout-actions,
+    .progress-container {
+        display: none !important;
+    }
+}

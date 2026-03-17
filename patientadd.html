@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Add Patient</title>
+
+<style>
+/* Page */
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f4f6f9;
+    margin: 0;
+    padding: 0;
+}
+
+/* Form box */
+form {
+    width: 500px;
+    margin: 40px auto;
+    background: #ffffff;
+    padding: 30px 35px;
+    border-radius: 10px;
+    box-shadow: 0 0 12px rgba(0,0,0,0.1);
+    line-height: 1.6;
+    font-weight: 600;
+}
+
+/* Inputs */
+input[type="text"],
+input[type="email"],
+input[type="date"],
+select,
+textarea {
+    width: 100%;
+    padding: 9px 10px;
+    margin: 6px 0 15px 0;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+/* Textarea */
+textarea {
+    height: 80px;
+    resize: vertical;
+}
+
+/* Submit button */
+input[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    background: #0d6efd;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+/* Hover */
+input[type="submit"]:hover {
+    background: #0b5ed7;
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+    form {
+        width: 90%;
+        margin: 20px auto;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<form action="patient_add.php" method="POST">
+
+First Name: <input type="text" name="first_name" required><br>
+Last Name: <input type="text" name="last_name" required><br>
+
+Gender:
+<select name="gender">
+  <option value="Male">Male</option>
+  <option value="Female">Female</option>
+</select><br>
+
+Date of Birth: <input type="date" name="date_of_birth"><br>
+Phone: <input type="text" name="phone"><br>
+Email: <input type="email" name="email"><br>
+
+Patient Type: <input type="text" name="patient_type"><br>
+Blood Type: <input type="text" name="blood_type"><br>
+Academic Year: <input type="text" name="academic_yr"><br>
+Faculty: <input type="text" name="faculty"><br>
+Accommodation Type: <input type="text" name="accomodation_type"><br>
+
+Marital Status:
+<select name="marital_status">
+  <option value="Single">Single</option>
+  <option value="Married">Married</option>
+</select><br>
+
+Medical History:<br>
+<textarea name="medical_history"></textarea><br>
+
+Surgical History:<br>
+<textarea name="surgical_history"></textarea><br>
+
+Family History:<br>
+<textarea name="family_history"></textarea><br>
+
+<input type="submit" value="Add Patient">
+
+</form>
+
+</body>
+</html>

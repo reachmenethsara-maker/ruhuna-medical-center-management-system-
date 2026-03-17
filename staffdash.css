@@ -1,0 +1,39 @@
+
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+    gap:25px;
+    padding:30px;
+}
+
+.card{
+    background:white;
+    border-radius:16px;
+    padding:30px;
+    text-align:center;
+    box-shadow:0 10px 25px rgba(0,0,0,0.08);
+    transition:0.3s;
+    text-decoration:none;
+    color:#333;
+}
+
+.card i{
+    font-size:40px;
+    margin-bottom:15px;
+}
+
+.card h2{
+    margin-bottom:5px;
+}
+
+.card:hover{
+    transform:translateY(-6px);
+}
+
+/* Card Icon Colors */
+
+.blue i{ color:#2563eb; }
+.green i{ color:#16a34a; }
+.orange i{ color:#f97316; }
+.red i{ color:#dc2626; }
