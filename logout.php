@@ -9,12 +9,13 @@ if(!isset($_SESSION['user_id']) || $_SESSION['role_id'] != 3){
 }
 session_start();
 
+// සියලු session variables remove කරන්න
 session_unset();
 
-
+// Session destroy කරන්න
 session_destroy();
 
-
+// Login page එකට redirect කරන්න
 header("Location: ../loginpage/loginpage.php");
 exit();
 ?>
