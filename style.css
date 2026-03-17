@@ -1,0 +1,168 @@
+/* ===== RESET ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: #f4f6f9;
+}
+
+/* ===== TOP HEADER ===== */
+.top-header {
+    position: fixed;
+    top: 0;
+    left: 240px; /* match sidebar width */
+    width: calc(100% - 240px);
+    height: 60px;
+    background: #1e3a8a;
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    font-weight: 500;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    z-index: 1000;
+}
+
+.top-header .left {
+    letter-spacing: 0.5px;
+}
+
+.top-header .right {
+    background: #ff4d4d;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* ===== SIDEBAR ===== */
+.sidbar {
+    width: 240px;
+    height: 100vh;
+    background: #1e3a8a;
+    padding: 20px 0;
+    position: fixed;
+    top: 0;
+    left: 0;
+    color: #fff;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+}
+
+.sidbar .logo {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.sidbar .logo img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 3px solid #fff;
+}
+
+.sidbar header {
+    text-align: center;
+    font-size: 20px;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.sidbar ul {
+    list-style: none;
+    padding: 3;
+}
+
+.sidbar ul li {
+    margin-bottom: 15px;
+}
+
+.sidbar ul li a {
+    display: block;
+    gap: 12px;
+    padding: 10px 20px;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.sidbar ul li a {
+    display: flex;           /* use flex to align icon and text */
+    align-items: center;     /* vertically center icon and text */
+    gap: 12px;               /* space between icon and text */
+    padding: 10px 20px;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: 0.3s;
+}
+.sidbar ul li a:hover {
+    background: #274bbf;
+}
+
+.sidbar ul li .smenu {
+    display: none;
+    padding-left: 20px;
+}
+
+.sidbar ul li:hover .smenu {
+    display: block;
+}
+
+.sidbar ul li.logout a {
+    color: #ff6b6b;
+    margin-top: 15px;
+}
+
+/* ===== MAIN CONTENT ===== */
+.main-content {
+    margin-left: 240px; /* leave space for sidebar */
+    padding: 80px 20px 20px 20px; /* space for top-header */
+}
+
+/* ===== CARDS ===== */
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.card {
+    background: #fff;
+    width: 200px;      /* small width */
+    height: 150px;      /* small height */
+    border-radius: 10px;
+    padding: 8px 5px;
+    text-align: center;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 12px rgba(0,0,0,0.12);
+}
+
+.card i {
+    font-size: 40px;
+    margin-bottom: 15px;
+    filter: blur(0); /* no blur for staff */
+}
+
+.card h2 {
+    margin-bottom: 3px;
+}
+
+/* Card Colors */
+.card.blue i { color: #2563eb; }
+.card.green i { color: #16a34a; }

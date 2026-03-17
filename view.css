@@ -1,0 +1,48 @@
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background: #f5f7fa;
+}
+
+.container {
+    width: 85%;
+    margin: 60px auto;
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.1);
+}
+
+h2 {
+    text-align: center;
+    color: #1e3a8a;
+    margin-bottom: 25px;
+}
+
+/* Table Design */
+.doctor-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.doctor-table th {
+    background: #1e3a8a;
+    color: white;
+    padding: 12px;
+    font-size: 16px;
+}
+
+.doctor-table td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+.doctor-table tr:nth-child(even) {
+    background: #f2f4f7;
+}
+
+.doctor-table tr:hover {
+    background: #e3e9f5;
+    transition: 0.3s;
+}

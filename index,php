@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Hospital Management System</title>
+<style>
+body{margin:0;font-family:Arial;background:#f4f6f9;}
+header{
+    background:#0d6efd;
+    color:white;
+    padding:15px 20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+.login-btn{
+    background:white;
+    color:#0d6efd;
+    padding:8px 15px;
+    border-radius:6px;
+    text-decoration:none;
+    font-weight:bold;
+}
+.main{
+    text-align:center;
+    margin-top:60px;
+}
+.main img{
+    width:450px;
+    max-width:90%;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h2>Hospital Management System</h2>
+    <a href="login.php" class="login-btn">Login</a>
+</header>
+
+<div class="main">
+    <h1>Welcome to Hospital System</h1>
+    <p>Manage Patients, Doctors, Staff & Admin</p>
+
+    <img src="cover1.jpg">  <!-- put any image here -->
+</div>
+
+</body>
+</html>
