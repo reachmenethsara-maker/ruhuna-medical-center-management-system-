@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Hospital System</title>
+<style>
+body{font-family:Arial;background:#f4f6f9;text-align:center;}
+.box{display:inline-block;margin:20px;padding:20px;border-radius:10px;background:white;width:200px;box-shadow:0 0 10px #aaa;}
+a{display:block;margin-top:15px;padding:10px;background:#0d6efd;color:white;text-decoration:none;border-radius:6px;}
+</style>
+</head>
+<body>
+
+<h1>Hospital Management System</h1>
+
+<div class="box">Admin Login <a href="login.php">Login</a></div>
+<div class="box">Patient Login <a href="login.php">Login</a></div>
+<div class="box">Doctor Login <a href="login.php">Login</a></div>
+<div class="box">Staff Login <a href="login.php">Login</a></div>
+
+</body>
+</html>
