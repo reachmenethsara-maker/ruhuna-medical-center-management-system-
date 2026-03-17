@@ -1,146 +1,127 @@
 <?php
 session_start();
-include("../db.php");
+include "../db.php";
 
-if(!isset($_SESSION['user_id'])){
-    header("Location: ../login.php");
+// Only patients
+if(!isset($_SESSION['user_id']) || $_SESSION['role_id'] != 4){
+    header("Location: ../loginpage/loginpage.php");
     exit();
 }
 
+// Initialize message
+$status_msg = '';
+
+if(isset($_GET['status'])){
+    if($_GET['status'] == 'Confirmed'){
+        $status_msg = "Your appointment has been Confirmed ✅";
+    } elseif($_GET['status'] == 'Cancelled'){
+        $status_msg = "Your appointment has been Cancelled ❌";
+    }
+}
+
+// Fetch patient details
 $user_id = $_SESSION['user_id'];
 
-$query = mysqli_query($conn,"SELECT * FROM user WHERE user_id='$user_id'");
-$user = mysqli_fetch_assoc($query);
+$stmt = $conn->prepare("SELECT first_name, last_name FROM patient WHERE user_id=?");
+$stmt->bind_param("i",$user_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+$patient_name = "Guest";
+
+if($row = $result->fetch_assoc()){
+    $patient_name = $row['first_name']." ".$row['last_name'];
+}
 ?>
 
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Patient Dashboard</title>
 
 <link rel="stylesheet" href="patient_style.css">
-
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
+<style>
+.dashboard-card {
+    border:none;
+    border-radius:12px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.1);
+    transition:0.3s;
+}
+.dashboard-card:hover { transform: translateY(-5px); }
+.dashboard-card h5 { font-weight:bold; }
+.dashboard-card p { font-size:0.9rem; }
+</style>
 </head>
-
 <body>
 
-<!-- SIDEBAR -->
-
-<div class="sidebar">
-
-    <div class="logo">
-        <img src="mc.png">
-        <h3>Patient Panel</h3>
-    </div>
-
-    <ul>
-
-        <li class="active">
-            <a href="#"><i class="fa-solid fa-gauge"></i> Dashboard</a>
-        </li>
-
-        <li>
-            <a href="view_doctors.php">
-            <i class="fa-solid fa-user-doctor"></i> Doctor Availability
-            </a>
-        </li>
-
-        <li>
-            <a href="book_appointment.php">
-            <i class="fa-solid fa-calendar-plus"></i> Book Appointment
-            </a>
-        </li>
-
-        <li>
-            <a href="appointment_manage.php">
-            <i class="fa-solid fa-calendar-check"></i> My Appointments
-            </a>
-        </li>
-
-        <li>
-            <a href="profile.php">
-            <i class="fa-solid fa-user"></i> My Profile
-            </a>
-        </li>
-
-        <li>
-            <a href="change_password.php">
-            <i class="fa-solid fa-key"></i> Change Password
-            </a>
-        </li>
-
-        <li class="logout">
-            <a href="logout.php">
-            <i class="fa-solid fa-right-from-bracket"></i> Logout
-            </a>
-        </li>
-
-    </ul>
-
-</div>
-
-
-<!-- MAIN AREA -->
+<!-- Sidebar -->
+<?php include("sidebar.php"); ?>
 
 <div class="main">
 
-    <!-- TOPBAR -->
+<!-- Topbar -->
+<?php include("topbar.php"); ?>
 
-    <div class="topbar">
+<div class="container-fluid p-4">
+<h3 class="mb-4"><i class="fa-solid fa-gauge"></i> Patient Dashboard</h3>
 
-        <h2>Patient Dashboard</h2>
-
-        <div class="user">
-            Welcome, <?php echo $user['user_name']; ?>
-        </div>
-
+<div class="row g-4">
+    <div class="col-md-3">
+        <a href="book_appointment.php" class="card dashboard-card text-center p-4">
+            <i class="fas fa-calendar-plus fa-2x text-primary"></i>
+            <h5 class="mt-3">Book Appointment</h5>
+            <p class="text-muted">Schedule doctor visit</p>
+        </a>
     </div>
-
-
-    <!-- CONTENT -->
-
-    <div class="content">
-
-        <h3>Welcome to Patient Dashboard</h3>
-
-        <p>Select an option below.</p>
-
-
-        <!-- DASHBOARD CARDS -->
-
-        <div class="cards">
-
-            <a href="book_appointment.php" class="card">
-                <i class="fas fa-calendar-plus"></i>
-                <h3>Book Appointment</h3>
-                <p>Schedule doctor visit</p>
-            </a>
-
-            <a href="view_doctors.php" class="card">
-                <i class="fas fa-user-doctor"></i>
-                <h3>Doctor Availability</h3>
-                <p>View doctor schedules</p>
-            </a>
-
-            <a href="appointment_manage.php" class="card">
-                <i class="fas fa-calendar-check"></i>
-                <h3>My Appointments</h3>
-                <p>Manage your bookings</p>
-            </a>
-
-            <a href="profile.php" class="card">
-                <i class="fas fa-user"></i>
-                <h3>My Profile</h3>
-                <p>View profile details</p>
-            </a>
-
-        </div>
-
+    <div class="col-md-3">
+        <a href="view_doctors.php" class="card dashboard-card text-center p-4">
+            <i class="fas fa-user-doctor fa-2x text-success"></i>
+            <h5 class="mt-3">Doctor Availability</h5>
+            <p class="text-muted">View doctor schedules</p>
+        </a>
     </div>
-
+    <div class="col-md-3">
+        <a href="appointment_view.php" class="card dashboard-card text-center p-4">
+            <i class="fas fa-calendar-check fa-2x text-warning"></i>
+            <h5 class="mt-3">My Appointments</h5>
+            <p class="text-muted">Manage your bookings</p>
+        </a>
+    </div>
+    <div class="col-md-3">
+        <a href="profile.php" class="card dashboard-card text-center p-4">
+            <i class="fas fa-user fa-2x text-info"></i>
+            <h5 class="mt-3">My Profile</h5>
+            <p class="text-muted">View profile details</p>
+        </a>
+    </div>
 </div>
+</div>
+</div>
+
+<!-- SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<!-- Display popup if status exists -->
+<?php if($status_msg): ?>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+    Swal.fire({
+        icon: 'info',
+        title: 'Appointment Status',
+        text: '<?= addslashes($status_msg) ?>',
+        timer: 3000,
+        timerProgressBar: true,
+        showConfirmButton: false
+    });
+});
+</script>
+<?php endif; ?>
 
 </body>
 </html>
