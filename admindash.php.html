@@ -1,0 +1,106 @@
+<?php
+include('../config/db.php'); // database connection
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin Dashboard</title>
+
+<link rel="stylesheet" href="dash.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+
+    <div class="logo">
+        <img src="mc.png" alt="Hospital Logo">
+        <h2>ADMIN</h2>
+    </div>
+
+    <ul>
+        <li><a href="#"><i class="fa-solid fa-gauge"></i> Dashboard</a></li>
+        <li><a href="mangepatient.php"><i class="fa-solid fa-user"></i> Patient Manage</a></li>
+        <li><a href="doctor_mange.html"><i class="fa-solid fa-user-doctor"></i> Doctor Manage</a></li>
+        <li><a href="doctor_availability.html"><i class="fa-solid fa-clock"></i> Doctor Availability</a></li>
+        <li><a href="appointment_mange.html"><i class="fa-solid fa-calendar-check"></i> Appointment Manage</a></li>
+        <li><a href="inventory_mange.html"><i class="fa-solid fa-pills"></i> Inventory</a></li>
+
+        <li>
+            <a class="btn"><i class="fa-solid fa-gear"></i> Setting</a>
+            <div class="smenu">
+                <a href="changepwd.html"><i class="fa-solid fa-key"></i> Change Password</a>
+            </div>
+        </li>
+
+        <li class="logout">
+            <a href="logout.php"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+        </li>
+    </ul>
+
+</div>
+
+
+<!-- Main Content -->
+<div class="main">
+
+    <!-- Topbar -->
+    <div class="topbar">
+
+        <h3>Medical Center Admin Dashboard</h3>
+
+        <div class="top-right">
+
+            <a href="useradd.php" class="add-user-btn">
+                <i class="fa-solid fa-user-plus"></i> Add User
+            </a>
+
+            <span class="admin-name">
+                <i class="fa-solid fa-user"></i> Admin
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- Dashboard Cards -->
+    <div class="cards">
+
+        <a href="mangepatient.php" class="card blue">
+            <i class="fas fa-users"></i>
+            <h2>Patients</h2>
+            <p>Manage Patients</p>
+        </a>
+
+
+        <a href="doctor_mange.html" class="card green">
+            <i class="fas fa-user-doctor"></i>
+            <h2>Doctors</h2>
+            <p>Manage Doctors</p>
+        </a>
+
+
+        <a href="appointment_mange.html" class="card orange">
+            <i class="fas fa-calendar-check"></i>
+            <h2>Appointments</h2>
+            <p>Manage Appointments</p>
+        </a>
+
+
+        <a href="inventory_mange.html" class="card red">
+            <i class="fas fa-pills"></i>
+            <h2>Inventory</h2>
+            <p>Manage Stock</p>
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>

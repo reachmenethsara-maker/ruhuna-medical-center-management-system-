@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Doctor | Medical Center</title>
+    <link rel="stylesheet" href="doctor manage .css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<div class="container">
+
+    <form class="doctor-form" action="add-doctor.php" method="POST">
+        <h2>Add New Doctor</h2>
+
+        <div class="row">
+            <div class="field">
+                <label>Doctor Name</label>
+                <input type="text" name="doctor_name" placeholder="Dr. John Doe" required>
+            </div>
+
+            <div class="field">
+                <label>Specialization</label>
+                <input type="text" name="specialization" placeholder="Cardiologist" required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="field">
+                <label>Email</label>
+                <input type="email" name="email" placeholder="doctor@email.com" required>
+            </div>
+
+            <div class="field">
+                <label>Phone Number</label>
+                <input type="tel" name="phone" placeholder="07XXXXXXXX" required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="field">
+                <label>Gender</label>
+                <select name="gender" required>
+                    <option value="">Select Gender</option>
+                    <option>Male</option>
+                    <option>Female</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>Experience (Years)</label>
+                <input type="number" name="experience" min="0" placeholder="5" required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="field">
+                <label>Consultation Fee</label>
+                <input type="number" name="fee" placeholder="1500" required>
+            </div>
+
+            <div class="field">
+                <label>Available Days</label>
+                <select name="available_days" required>
+                    <option>Monday - Friday</option>
+                    <option>Weekends</option>
+                    <option>Monday - Saturday</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="field full">
+            <label>Doctor Address</label>
+            <textarea name="address" placeholder="Clinic Address" required></textarea>
+        </div>
+
+        <div class="buttons">
+            <button type="submit" class="btn-save">
+                <i class="fa fa-save"></i> Save Doctor
+            </button>
+            <button type="reset" class="btn-reset">
+                <i class="fa fa-undo"></i> Clear
+            </button>
+        </div>
+
+    </form>
+
+</div>
+
+</body>
+</html>

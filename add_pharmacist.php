@@ -1,27 +1,39 @@
 <?php
 session_start();
-include('../db.php');
+include("../db.php");
 
-// Only allow patients
-if(!isset($_SESSION['user_id']) || $_SESSION['role_id'] != 3){
-    header("Location: ../loginpage/loginpage.php");
-    exit();
-}
-$staff_user_id = $_SESSION['user_id'];
+// // Only allow admin (role_id = 1)
+// if(!isset($_SESSION['user_id']) || $_SESSION['role_id'] != 1){
+//     header("Location: ../loginpage/loginpage.php");
+//     exit();
+// }
 
-// Fetch full name from patient table if exists
-$stmt = $conn->prepare("SELECT staff_name FROM staff WHERE user_id = ?");
-$stmt->bind_param("i", $staff_user_id);
-$stmt->execute();
-$result = $stmt->get_result();
-$patient = $result->fetch_assoc();
+/* ---------------- ADD PHARMACIST ---------------- */
+if(isset($_POST['add_pharmacist'])){
+    $first_name = trim($_POST['first_name']);
+    $last_name  = trim($_POST['last_name']);
+    $email      = trim($_POST['email']);
+    $address    = trim($_POST['address']);
+    $phone      = trim($_POST['phone']);
+    $username   = trim($_POST['username']);
+    $password   = trim($_POST['password']);
 
-$staff_name = '';
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+    $role_id = 5; // Pharmacist role
 
-if(isset($staff) && $staff){
-    $staff_name = $staff['staff_name'];
-} else {
-    $staff_name = $_SESSION['user_name']; 
+    // Insert into user table
+    $stmt = $conn->prepare("INSERT INTO user (user_name,password,role_id) VALUES (?,?,?)");
+    $stmt->bind_param("ssi",$username,$hashed_password,$role_id);
+    $stmt->execute();
+    $user_id = $stmt->insert_id;
+
+    // Insert into pharmacist table
+    $stmt2 = $conn->prepare("INSERT INTO pharmacist (user_id,first_name,last_name,email,address,phone) VALUES (?,?,?,?,?,?)");
+    $stmt2->bind_param("isssss",$user_id,$first_name,$last_name,$email,$address,$phone);
+    $stmt2->execute();
+
+    header("Location: add_pharmacist.php");
+    exit;
 }
 
 /* ---------------- EDIT PHARMACIST ---------------- */
@@ -80,8 +92,7 @@ $result = $conn->query("SELECT pharmacist.*,user.user_name FROM pharmacist JOIN 
 <html>
 <head>
 <title>Pharmacist Management</title>
-  <link rel="stylesheet" href="staffpanel.css">
-
+<link rel="stylesheet" href="admindash.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
 body{font-family:'Poppins',sans-serif; background:#f4f6f9;}

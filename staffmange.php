@@ -1,28 +1,5 @@
 <?php
-session_start();
-include('../db.php');
-
-// Only allow patients
-if(!isset($_SESSION['user_id']) || $_SESSION['role_id'] != 3){
-    header("Location: ../loginpage/loginpage.php");
-    exit();
-}
-$staff_user_id = $_SESSION['user_id'];
-
-// Fetch full name from patient table if exists
-$stmt = $conn->prepare("SELECT staff_name FROM staff WHERE user_id = ?");
-$stmt->bind_param("i", $staff_user_id);
-$stmt->execute();
-$result = $stmt->get_result();
-$patient = $result->fetch_assoc();
-
-$staff_name = '';
-
-if(isset($staff) && $staff){
-    $staff_name = $staff['staff_name'];
-} else {
-    $staff_name = $_SESSION['user_name']; 
-}
+include 'db.php'; // Database connection
 
 /// -------------------- Delete Staff --------------------
 if(isset($_GET['delete'])){
@@ -106,9 +83,8 @@ if(isset($_GET['edit'])){
 <!DOCTYPE html>
 <html>
 <head>
-      <link rel="stylesheet" href="staffpanel.css">
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="admindash.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <title>Staff Management</title>
     <style>
         body { font-family: Arial, sans-serif; background: #f4f6f9; margin:0; padding:0; }

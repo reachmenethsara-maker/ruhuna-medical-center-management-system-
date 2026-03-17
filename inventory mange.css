@@ -1,0 +1,126 @@
+* {
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    background: #f4f6f9;
+    padding: 30px;
+}
+
+/* Container */
+.container {
+    max-width: 1200px;
+    margin: auto;
+}
+
+/* Title */
+h2 {
+    color: #0d6efd;
+    margin-bottom: 20px;
+}
+
+/* Top Actions */
+.top-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.add {
+    background: #198754;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.add:hover {
+    background: #157347;
+}
+
+/* Search */
+.search {
+    display: flex;
+    gap: 8px;
+}
+
+.search input {
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+.search button {
+    background: #0d6efd;
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* Table */
+.table-box {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+
+/* Stock Status */
+.in-stock {
+    color: #198754;
+    font-weight: 600;
+}
+
+.low-stock {
+    color: #ffc107;
+    font-weight: 600;
+}
+
+.out-stock {
+    color: #dc3545;
+    font-weight: 600;
+}
+
+/* Buttons */
+button {
+    padding: 6px 10px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.edit {
+    background: #ffc107;
+}
+
+.delete {
+    background: #dc3545;
+    color: white;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+    .top-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+}

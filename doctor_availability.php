@@ -1,47 +1,25 @@
 <?php
 session_start();
-include('../db.php');
-
-// Only allow patients
-if(!isset($_SESSION['user_id']) || $_SESSION['role_id'] != 3){
-    header("Location: ../loginpage/loginpage.php");
-    exit();
-}
-$staff_user_id = $_SESSION['user_id'];
-
-// Fetch full name from patient table if exists
-$stmt = $conn->prepare("SELECT staff_name FROM staff WHERE user_id = ?");
-$stmt->bind_param("i", $staff_user_id);
-$stmt->execute();
-$result = $stmt->get_result();
-$patient = $result->fetch_assoc();
-
-$staff_name = '';
-
-if(isset($staff) && $staff){
-    $staff_name = $staff['staff_name'];
-} else {
-    $staff_name = $_SESSION['user_name']; 
-}
+include("../db.php");
 
 // UPDATE DOCTOR AVAILABILITY
 if(isset($_POST['update'])){
 
     $doctor_id = $_POST['doctor_id'];
     $available_date = $_POST['available_date'];
-    $start_date = $_POST['start_date'];
-    $end_date = $_POST['end_date'];
+    $start_time = $_POST['start_time'];
+    $end_time = $_POST['end_time'];
     $status = $_POST['status'];
 
     $sql = "UPDATE doctor SET 
             available_date=?,
-            start_date=?,
-            end_date=?,
+            start_time=?,
+            end_time=?,
             status=?
             WHERE doctor_id=?";
 
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssssi",$available_date,$start_date,$end_date,$status,$doctor_id);
+    $stmt->bind_param("ssssi",$available_date,$start_time,$end_time,$status,$doctor_id);
     $stmt->execute();
 
     echo "<script>alert('Doctor availability updated');window.location='doctor_availability.php';</script>";
@@ -54,13 +32,11 @@ $doctors = mysqli_query($conn,"SELECT * FROM doctor ORDER BY Doctor_name ASC");
 <!DOCTYPE html>
 <html>
 <head>
-       <link rel="stylesheet" href="staffpanel.css">
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="admindash.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <title>Doctor Availability</title>
 
 <style>
-
 body{
 font-family: Arial,sans-serif;
 background:#f4f6f9;
@@ -159,6 +135,7 @@ background:#0b5ed7;
 .status-inactive{
     background:#dc3545;
 }
+
 /* Update Button Style */
 
 .update-btn{
@@ -189,98 +166,67 @@ background:#0b5ed7;
 </head>
 
 <body>
-     <?php include("sidebar.php"); ?>
+<?php include("sidebar.php"); ?>
 
 <div class="main">
-
-    <?php include("topbar.php"); ?>
-
-
+<?php include("topbar.php"); ?>
 
 <div class="container">
 
 <h2>Manage Doctor Availability</h2>
 
 <table>
-
 <tr>
 <th>Doctor Name</th>
 <th>Speciality</th>
 <th>Available Date</th>
-<th>Start Date</th>
-<th>End Date</th>
+<th>Start Time</th>
+<th>End Time</th>
 <th>Status</th>
 <th>Update</th>
 </tr>
 
 <?php while($row = mysqli_fetch_assoc($doctors)) { ?>
-
 <tr>
-
 <form method="POST">
-
 <td>
-Dr. <?php echo htmlspecialchars($row['Doctor_name']); ?>
+Dr. <?= htmlspecialchars($row['Doctor_name']); ?>
 </td>
 
 <td>
-<?php echo htmlspecialchars($row['speciality']); ?>
+<?= htmlspecialchars($row['speciality']); ?>
 </td>
 
 <td>
-<input type="date" name="available_date"
-value="<?php echo $row['available_date']; ?>">
+<input type="date" name="available_date" value="<?= $row['available_date']; ?>">
 </td>
 
 <td>
-<input type="date" name="start_date"
-value="<?php echo $row['start_date']; ?>">
+<input type="time" name="start_time" value="<?= $row['start_time'] ?? '09:00'; ?>">
 </td>
 
 <td>
-<input type="date" name="end_date"
-value="<?php echo $row['end_date']; ?>">
+<input type="time" name="end_time" value="<?= $row['end_time'] ?? '16:00'; ?>">
 </td>
 
 <td>
-
-<select name="status"
-class="status-select <?php echo ($row['status']=="Active") ? 'status-active' : 'status-inactive'; ?>">
-
-<option value="Active"
-<?php if($row['status']=="Active") echo "selected"; ?>>
-Active
-</option>
-
-<option value="Inactive"
-<?php if($row['status']=="Inactive") echo "selected"; ?>>
-Inactive
-</option>
-
+<select name="status" class="status-select <?= ($row['status']=="Active") ? 'status-active' : 'status-inactive'; ?>">
+<option value="Active" <?= ($row['status']=="Active") ? 'selected' : ''; ?>>Active</option>
+<option value="Inactive" <?= ($row['status']=="Inactive") ? 'selected' : ''; ?>>Inactive</option>
 </select>
-
 </td>
 
 <td>
-
-<input type="hidden" name="doctor_id"
-value="<?php echo $row['doctor_id']; ?>">
-
-<button type="submit" name="update" class="update-btn">
-Update
-</button>
-
+<input type="hidden" name="doctor_id" value="<?= $row['doctor_id']; ?>">
+<button type="submit" name="update" class="update-btn">Update</button>
 </td>
-
 </form>
-
 </tr>
-
 <?php } ?>
 
 </table>
 
 </div>
-
+</div>
 </body>
 </html>

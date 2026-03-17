@@ -1,10 +1,10 @@
 <?php
 session_start();
-include '../db.php'; // your database connection file
+include 'db.php'; // your database connection file
 
 // Check if admin is logged in
-if(!isset($_SESSION['role_id']) || $_SESSION['role_id'] != 3){
-   
+if(!isset($_SESSION['role_id']) || $_SESSION['role_id'] != 1){
+    die("Access Denied. Only Admins can add patients.");
 }
 
 // Check if form is submitted

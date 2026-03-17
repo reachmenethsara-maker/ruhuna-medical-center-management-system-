@@ -2,12 +2,11 @@
 session_start();
 include('../db.php');
 
-// Only allow patients
-if(!isset($_SESSION['user_id']) || $_SESSION['role_id'] != 3){
-    header("Location: ../loginpage/loginpage.php");
-    exit();
-}
-$staff_user_id = $_SESSION['user_id'];
+// Optional: only allow Admin
+// if(!isset($_SESSION['role_id']) || $_SESSION['role_id'] != 1){
+//     header("Location: ../loginpage/loginpage.php");
+//     exit();
+// }
 
 // Fetch all users from role tables
 $patients   = $conn->query("SELECT * FROM patient ORDER BY first_name ASC");
@@ -20,9 +19,9 @@ $doctors    = $conn->query("SELECT * FROM doctor ORDER BY Doctor_name ASC");
 <head>
 <meta charset="UTF-8">
 <title>Admin - Create Users</title>
-<link rel="stylesheet" href="staffpanel.css">
+<link rel="stylesheet" href="admindash.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <style>
 body { font-family:'Poppins', sans-serif; background:#f4f6f9; }
 .container { max-width:700px; margin:50px auto; background:#fff; padding:30px; border-radius:12px; box-shadow:0 0 15px rgba(0,0,0,0.1);}
@@ -37,7 +36,7 @@ button[type="submit"]:hover { background:#0b5ed7; }
 <body>
 <?php include("sidebar.php"); ?>
 <div class="main">
-<!-- <?php include("topbar.php"); ?> -->
+<?php include("topbar.php"); ?>
 
 <div class="container">
 <h2>Create Username & Password</h2>

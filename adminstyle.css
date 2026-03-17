@@ -1,0 +1,212 @@
+/* --- RESET --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    background: #f0f2f5;
+    color: #333;
+}
+
+/* --- SIDEBAR --- */
+.sidebar {
+    width: 220px;
+    background: #2c3e50;
+    min-height: 100vh;
+    color: #fff;
+    position: fixed;
+}
+
+.sidebar .logo {
+    text-align: center;
+    padding: 20px 0;
+}
+
+.sidebar .logo img {
+    width: 60px;
+    margin-bottom: 10px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    position: relative;
+}
+
+.sidebar ul li a {
+    display: flex;
+    align-items: center;
+    padding: 14px 20px;
+    color: #fff;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.sidebar ul li a i {
+    margin-right: 12px;
+}
+
+.sidebar ul li a:hover {
+    background: #1abc9c;
+    color: #fff;
+}
+
+.sidebar ul li.logout a {
+    background: #e74c3c;
+}
+
+.smenu {
+    display: none;
+    background: #34495e;
+}
+
+.btn:hover + .smenu,
+.smenu:hover {
+    display: block;
+}
+
+/* --- MAIN CONTENT --- */
+.main {
+    margin-left: 220px;
+    padding: 20px;
+    width: calc(100% - 220px);
+}
+
+/* --- TOPBAR --- */
+.topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.topbar h3 {
+    color: #2c3e50;
+}
+
+.admin-name {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+/* --- USER BUTTON --- */
+.userbtn {
+    background: #fff;
+    border-top: 5px solid #e74c3c;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: 0.3s;
+    width: 200px;
+    cursor: pointer;
+    margin-bottom: 20px;  /* space below */
+    display: inline-block;
+}
+
+.userbtn a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.userbtn i {
+    font-size: 30px;
+    color: #e74c3c;
+    margin-bottom: 10px;
+}
+
+.userbtn h2 {
+    font-size: 18px;
+    margin: 10px 0 5px 0;
+    color: #333;
+}
+
+.userbtn p {
+    font-size: 14px;
+    color: #555;
+}
+
+.userbtn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+/* --- DASHBOARD CARDS --- */
+.cards {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.card {
+    flex: 1;
+    min-width: 200px;
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transition: 0.3s;
+}
+
+.card a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.card i {
+    font-size: 30px;
+    margin-bottom: 10px;
+}
+
+.card h2 {
+    margin: 15px 0 5px 0;
+    font-size: 18px;
+    color: #333;
+}
+
+.card p {
+    color: #555;
+    font-size: 14px;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+/* --- CARD COLORS --- */
+.card.blue { border-top: 5px solid #3498db; }
+.card.green { border-top: 5px solid #2ecc71; }
+.card.orange { border-top: 5px solid #e67e22; }
+.card.red { border-top: 5px solid #e74c3c; }
+
+.card.blue i { color: #3498db; }
+.card.green i { color: #2ecc71; }
+.card.orange i { color: #e67e22; }
+.card.red i { color: #e74c3c; }
+
+/* --- QUICK ACTION BUTTONS --- */
+.btn-add-user {
+    background: #28a745;
+    color: #fff;
+    padding: 8px 14px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 14px;
+    margin-bottom: 20px;
+    display: inline-block;
+}
+
+.btn-add-user:hover {
+    background: #218838;
+}

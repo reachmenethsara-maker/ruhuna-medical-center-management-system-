@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Appointment Management | Medical Center</title>
+    <link rel="stylesheet" href="appoiment manage.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<div class="container">
+
+    <!-- Page Title -->
+    <h2><i class="fas fa-calendar-check"></i> Appointment Management</h2>
+
+    <!-- Filters -->
+    <div class="filter-box">
+        <select>
+            <option>All Doctors</option>
+            <option>Dr. John Doe</option>
+            <option>Dr. Sarah Smith</option>
+        </select>
+
+        <input type="date">
+
+        <select>
+            <option>All Status</option>
+            <option>Pending</option>
+            <option>Approved</option>
+            <option>Completed</option>
+            <option>Cancelled</option>
+        </select>
+
+        <button><i class="fas fa-search"></i> Filter</button>
+    </div>
+
+    <!-- Appointment Table -->
+    <div class="table-box">
+        <table>
+            <thead>
+                <tr>
+                    <th>Appointment ID</th>
+                    <th>Patient</th>
+                    <th>Doctor</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>#A101</td>
+                    <td>John Silva</td>
+                    <td>Dr. John Doe</td>
+                    <td>2026-01-22</td>
+                    <td>10:30 AM</td>
+                    <td class="pending">Pending</td>
+                    <td>
+                        <button class="approve">Approve</button>
+                        <button class="cancel">Cancel</button>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>#A102</td>
+                    <td>Sarah Fernando</td>
+                    <td>Dr. Sarah Smith</td>
+                    <td>2026-01-22</td>
+                    <td>11:00 AM</td>
+                    <td class="approved">Approved</td>
+                    <td>
+                        <button class="complete">Complete</button>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>#A103</td>
+                    <td>David Perera</td>
+                    <td>Dr. Elshan</td>
+                    <td>2026-01-21</td>
+                    <td>02:00 PM</td>
+                    <td class="completed">Completed</td>
+                    <td>-</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>

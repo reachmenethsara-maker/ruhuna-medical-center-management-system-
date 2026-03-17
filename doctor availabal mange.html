@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Doctor Availability | Medical Center</title>
+    <link rel="stylesheet" href="availabal.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<div class="container">
+
+    <h2><i class="fas fa-user-doctor"></i> Manage Doctor Availability</h2>
+
+    <!-- Availability Form -->
+    <form class="availability-form">
+
+        <div class="row">
+            <div class="field">
+                <label>Select Doctor</label>
+                <select>
+                    <option>Dr. John Doe</option>
+                    <option>Dr. Sarah Smith</option>
+                    <option>Dr. Elshan</option>
+                </select>
+            </div>
+
+            <div class="field">
+                <label>Day</label>
+                <select>
+                    <option>Monday</option>
+                    <option>Tuesday</option>
+                    <option>Wednesday</option>
+                    <option>Thursday</option>
+                    <option>Friday</option>
+                    <option>Saturday</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="field">
+                <label>Start Time</label>
+                <input type="time">
+            </div>
+
+            <div class="field">
+                <label>End Time</label>
+                <input type="time">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="field">
+                <label>Max Patients</label>
+                <input type="number" placeholder="20">
+            </div>
+        </div>
+
+        <button type="submit" class="btn-save">
+            <i class="fas fa-save"></i> Save Availability
+        </button>
+
+    </form>
+
+    <!-- Availability Table -->
+    <div class="table-box">
+        <h3>Doctor Schedule</h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Doctor</th>
+                    <th>Day</th>
+                    <th>Time</th>
+                    <th>Max Patients</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Dr. John Doe</td>
+                    <td>Monday</td>
+                    <td>09:00 AM - 12:00 PM</td>
+                    <td>20</td>
+                    <td>
+                        <button class="edit">Edit</button>
+                        <button class="delete">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>

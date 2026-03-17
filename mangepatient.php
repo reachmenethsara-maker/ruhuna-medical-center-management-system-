@@ -1,38 +1,17 @@
 <?php
 session_start();
-include('../db.php');
+include 'db.php';
 
-// Only allow patients
-if(!isset($_SESSION['user_id']) || $_SESSION['role_id'] != 3){
+// Admin access check
+if(!isset($_SESSION['role_id']) || $_SESSION['role_id'] != 1){
     header("Location: ../loginpage/loginpage.php");
     exit();
-}
-$staff_user_id = $_SESSION['user_id'];
-
-// Fetch full name from staff table if exists
-$stmt = $conn->prepare("SELECT staff_name FROM staff WHERE user_id = ?");
-$stmt->bind_param("i", $staff_user_id);
-$stmt->execute();
-$result = $stmt->get_result();
-$staff = $result->fetch_assoc();
-
-$staff_name = '';
-if($staff && isset($staff['staff_name'])){
-    $staff_name = $staff['staff_name'];
-} else {
-    $staff_name = $_SESSION['user_name']; 
 }
 
 // -------------------- Delete Patient --------------------
 if(isset($_GET['delete'])){
     $id = $_GET['delete'];
-
-    // Delete related appointments first to prevent foreign key error
-    mysqli_query($conn, "DELETE FROM appointment WHERE patient_id='$id'");
-
-    // Then delete the patient
     mysqli_query($conn,"DELETE FROM patient WHERE patient_id='$id'");
-    
     header("Location: ".$_SERVER['PHP_SELF']);
     exit;
 }
@@ -104,8 +83,9 @@ if(isset($_POST['save'])){
 // -------------------- Search --------------------
 $search = $_GET['search'] ?? '';
 if($search){
+    // First 2 letters match
+    $like = $search . "%";
     $stmt = $conn->prepare("SELECT * FROM patient WHERE first_name LIKE ? OR last_name LIKE ? ORDER BY patient_id DESC");
-    $like = "%$search%";
     $stmt->bind_param("ss",$like,$like);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -126,29 +106,94 @@ if(isset($_GET['edit'])){
 <html>
 <head>
     <title>Patient Management</title>
-    <link rel="stylesheet" href="staffpanel.css">
+    <link rel="stylesheet" href="admindash.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
-        body { font-family: Arial,sans-serif; background:#f4f6f9; margin:0; padding:0;}
+     body { font-family: Arial,sans-serif; background:#f4f6f9; margin:0; padding:0;}
         .container { width:95%; max-width:1200px; margin:20px auto; background:#fff; padding:20px; border-radius:10px; box-shadow:0 0 12px rgba(0,0,0,0.1);}
-        .top{display:flex; justify-content:space-between; flex-wrap:wrap; align-items:center; margin-bottom:20px; gap:10px;}
-        .top input[type=text]{width:350px; padding:8px 12px; border-radius:6px; border:1px solid #ccc;}
-        .top button{padding:8px 16px; border:none; border-radius:6px; background:#0d6efd; color:#fff; cursor:pointer; transition:0.3s;}
-        #addForm{display:none; background:#f8f9fa; padding:20px; border-radius:12px; margin-bottom:20px; box-shadow:0 3px 8px rgba(0,0,0,0.1);}
-        #addForm input, #addForm select, #addForm textarea{width:100%; padding:10px; margin:6px 0; border-radius:6px; border:1px solid #ccc; box-sizing:border-box;}
+      .top{
+            display:flex;
+            justify-content:space-between;
+            flex-wrap:wrap;
+            align-items:center;
+            margin-bottom:20px;
+            gap:10px;
+        }
+        .top input[type=text]{
+            width:350px;
+            padding:8px 12px;
+            border-radius:6px;
+            border:1px solid #ccc;
+        }
+        .top button{
+            padding:8px 16px;
+            border:none;
+            border-radius:6px;
+            background:#0d6efd;
+            color:#fff;
+            cursor:pointer;
+            transition:0.3s;
+        }
+        #addForm{
+            display:none;
+            background:#f8f9fa;
+            padding:20px;
+            border-radius:12px;
+            margin-bottom:20px;
+            box-shadow:0 3px 8px rgba(0,0,0,0.1);
+        }
+        #addForm input, #addForm select, #addForm textarea{
+            width:100%;
+            padding:10px;
+            margin:6px 0;
+            border-radius:6px;
+            border:1px solid #ccc;
+            box-sizing:border-box;
+        }
         #addForm textarea{resize:vertical; min-height:60px;}
-        #addForm button{margin-top:10px; background:#198754; color:white;}
+        #addForm button{
+            margin-top:10px;
+            background:#198754;
+            color:white;
+        }
         #addForm button[name="update"]{ background:#ffc107; }
-        table{width:100%; border-collapse:collapse; margin-top:10px; display:block; overflow-x:auto;}
-        table th, table td{text-align:center; padding:12px; border-bottom:1px solid #ddd; font-size:14px; white-space:nowrap;}
-        table th{background:#0d6efd; color:white; font-weight:500;}
+        table{
+            width:100%;
+            border-collapse:collapse;
+            margin-top:10px;
+            display:block;
+            overflow-x:auto;
+        }
+        table th, table td{
+            text-align:center;
+            padding:12px;
+            border-bottom:1px solid #ddd;
+            font-size:14px;
+            white-space:nowrap;
+        }
+        table th{
+            background:#0d6efd;
+            color:white;
+            font-weight:500;
+        }
         table tr:nth-child(even){ background:#f8f9fa; }
         table tr:hover{ background:#e2e6ea; }
-        table td a{margin:0 4px; text-decoration:none; padding:4px 8px; border-radius:6px; color:#fff; font-size:13px;}
+        table td a{
+            margin:0 4px;
+            text-decoration:none;
+            padding:4px 8px;
+            border-radius:6px;
+            color:#fff;
+            font-size:13px;
+        }
         table td a[href*="edit"]{ background:#0d6efd; }
         table td a[href*="delete"]{ background:#dc3545; }
         table td a:hover{ opacity:0.85; }
-        @media(max-width:1024px){ .main{ margin-left:0; padding:15px; } .top-bar{ flex-direction:column; align-items:flex-start; } .top-bar input[type=text]{width:100%;} }
+        @media(max-width:1024px){
+            .main{ margin-left:0; padding:15px; }
+            .top-bar{ flex-direction:column; align-items:flex-start; }
+            .top-bar input[type=text]{width:100%;}
+        }
     </style>
     <script>
         function toggleAddForm(){
@@ -167,7 +212,7 @@ if(isset($_GET['edit'])){
 
     <div class="top">
         <form method="GET" style="flex:1;">
-            <input type="text" name="search" placeholder="Search by name..." value="<?= htmlspecialchars($search); ?>">
+            <input type="text" name="search" placeholder="Search by first 2 letters..." value="<?= htmlspecialchars($search); ?>">
             <button type="submit">Search</button>
         </form>
         <button onclick="toggleAddForm()">+ Add Patient</button>
@@ -179,20 +224,47 @@ if(isset($_GET['edit'])){
                 <input type="hidden" name="id" value="<?= $edit_patient['patient_id'] ?? ''; ?>">
                 <input type="text" name="first_name" placeholder="First Name" value="<?= $edit_patient['first_name'] ?? ''; ?>" required>
                 <input type="text" name="last_name" placeholder="Last Name" value="<?= $edit_patient['last_name'] ?? ''; ?>" required>
+
                 <select name="gender" required>
                     <option value="">Select Gender</option>
                     <option value="Male" <?= ($edit_patient['gender']??'')=='Male'?'selected':''; ?>>Male</option>
                     <option value="Female" <?= ($edit_patient['gender']??'')=='Female'?'selected':''; ?>>Female</option>
                 </select>
+
                 <input type="date" name="date_of_birth" value="<?= $edit_patient['date_of_birth'] ?? ''; ?>" required>
                 <input type="text" name="phone" placeholder="Phone" value="<?= $edit_patient['phone'] ?? ''; ?>">
                 <input type="email" name="email" placeholder="Email" value="<?= $edit_patient['email'] ?? ''; ?>">
-                <input type="text" name="patient_type" placeholder="Patient Type" value="<?= $edit_patient['patient_type'] ?? ''; ?>">
-                <input type="text" name="blood_type" placeholder="Blood Type" value="<?= $edit_patient['blood_type'] ?? ''; ?>">
+
+                <select name="patient_type">
+                    <option value="">Select Type</option>
+                    <option value="Student" <?= ($edit_patient['patient_type']??'')=='Student'?'selected':''; ?>>Student</option>
+                    <option value="Staff" <?= ($edit_patient['patient_type']??'')=='Staff'?'selected':''; ?>>Staff</option>
+                    <option value="Visitor" <?= ($edit_patient['patient_type']??'')=='Visitor'?'selected':''; ?>>Visitor</option>
+                </select>
+
+                <select name="blood_type">
+                    <option value="">Select Blood Type</option>
+                    <option value="A+" <?= ($edit_patient['blood_type']??'')=='A+'?'selected':''; ?>>A+</option>
+                    <option value="A-" <?= ($edit_patient['blood_type']??'')=='A-'?'selected':''; ?>>A-</option>
+                    <option value="B+" <?= ($edit_patient['blood_type']??'')=='B+'?'selected':''; ?>>B+</option>
+                    <option value="B-" <?= ($edit_patient['blood_type']??'')=='B-'?'selected':''; ?>>B-</option>
+                    <option value="O+" <?= ($edit_patient['blood_type']??'')=='O+'?'selected':''; ?>>O+</option>
+                    <option value="O-" <?= ($edit_patient['blood_type']??'')=='O-'?'selected':''; ?>>O-</option>
+                    <option value="AB+" <?= ($edit_patient['blood_type']??'')=='AB+'?'selected':''; ?>>AB+</option>
+                    <option value="AB-" <?= ($edit_patient['blood_type']??'')=='AB-'?'selected':''; ?>>AB-</option>
+                </select>
+
                 <input type="text" name="academic_yr" placeholder="Academic Year" value="<?= $edit_patient['academic_yr'] ?? ''; ?>">
                 <input type="text" name="faculty" placeholder="Faculty" value="<?= $edit_patient['faculty'] ?? ''; ?>">
-                <input type="text" name="accomodation_type" placeholder="Accommodation Type" value="<?= $edit_patient['accomodation_type'] ?? ''; ?>">
+
+                <select name="accomodation_type">
+                    <option value="">Select Accommodation</option>
+                    <option value="Hostel" <?= ($edit_patient['accomodation_type']??'')=='Hostel'?'selected':''; ?>>Hostel</option>
+                    <option value="Home" <?= ($edit_patient['accomodation_type']??'')=='Home'?'selected':''; ?>>Home</option>
+                    <option value="Off-Campus" <?= ($edit_patient['accomodation_type']??'')=='Off-Campus'?'selected':''; ?>>Off-Campus</option>
+                </select>
             </div>
+
             <textarea name="medical_history" placeholder="Medical History"><?= $edit_patient['medical_history'] ?? ''; ?></textarea>
             <textarea name="surgical_history" placeholder="Surgical History"><?= $edit_patient['surgical_history'] ?? ''; ?></textarea>
             <textarea name="family_history" placeholder="Family History"><?= $edit_patient['family_history'] ?? ''; ?></textarea>

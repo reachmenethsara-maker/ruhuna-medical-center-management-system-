@@ -1,28 +1,5 @@
 <?php
-session_start();
-include('../db.php');
-
-// Only allow patients
-if(!isset($_SESSION['user_id']) || $_SESSION['role_id'] != 3){
-    header("Location: ../loginpage/loginpage.php");
-    exit();
-}
-$staff_user_id = $_SESSION['user_id'];
-
-// Fetch full name from patient table if exists
-$stmt = $conn->prepare("SELECT staff_name FROM staff WHERE user_id = ?");
-$stmt->bind_param("i", $staff_user_id);
-$stmt->execute();
-$result = $stmt->get_result();
-$patient = $result->fetch_assoc();
-
-$staff_name = '';
-
-if(isset($staff) && $staff){
-    $staff_name = $staff['staff_name'];
-} else {
-    $staff_name = $_SESSION['user_name']; 
-}
+include 'db.php'; // your database connection
 
 // -------------------- Delete Appointment --------------------
 if(isset($_GET['delete'])){
@@ -74,173 +51,96 @@ $result = mysqli_query($conn, $query);
 <html>
 <head>
     <title>Appointment Management</title>
-    
-    <link rel="stylesheet" href="staffpanel.css">
+     <link rel="stylesheet" href="admindash.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  
+    <style>
+        body { font-family: Arial, sans-serif; background:#f4f6f9; margin:0; padding:0; }
+        .container { width:95%; max-width:1200px; margin:20px auto; background:#fff; padding:25px; border-radius:12px; box-shadow:0 0 15px rgba(0,0,0,0.1); }
+        h2 { text-align:center; color:#0d6efd; margin-bottom:20px; }
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<style>
-    /* Table container scroll */
-.table-container{
-width:100%;
-overflow-x:auto;
-}
+        /* Top bar */
+        .top-bar { display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px; margin-bottom:20px; }
+        .top-bar input[type=text] { width:300px; padding:8px; border-radius:6px; border:1px solid #ccc; }
+        .top-bar button { padding:8px 15px; border:none; border-radius:6px; background:#198754; color:white; cursor:pointer; }
+        .top-bar button:hover{ opacity:0.9; }
 
-/* Table style */
-.data-table{
-width:100%;
-min-width:1100px;
-border-collapse:collapse;
-font-size:14px;
-}
+        /* Table */
+        table { width:100%; border-collapse:collapse; margin-top:10px; display:block; overflow-x:auto; }
+        table th, table td { text-align:center; padding:12px; border-bottom:1px solid #ddd; white-space: nowrap; }
+        table th { background:#0d6efd; color:white; font-weight:500; }
+        table tr:nth-child(even){ background:#f8f9fa; }
+        table tr:hover{ background:#e2e6ea; }
+        table td a { margin:0 4px; text-decoration:none; padding:4px 8px; border-radius:6px; color:#fff; font-size:13px; }
+        table td a[href*="edit"]{ background:#0d6efd; }
+        table td a[href*="delete"]{ background:#dc3545; }
+        table td a[href*="confirm"]{ background:#198754; }
+        table td a:hover{ opacity:0.85; }
 
-/* Header */
-.data-table th{
-background:#0d6efd;
-color:white;
-padding:12px;
-text-align:center;
-}
-
-/* Cells */
-.data-table td{
-padding:10px;
-text-align:center;
-border-bottom:1px solid #ddd;
-}
-
-/* Row hover */
-.data-table tr:hover{
-background:#f1f6ff;
-}
-
-/* Keep buttons same line */
-.action-cell{
-white-space:nowrap;
-}
-
-/* Buttons */
-.action-btn{
-padding:6px 12px;
-border-radius:5px;
-text-decoration:none;
-font-size:13px;
-color:white;
-margin:2px;
-display:inline-block;
-}
-
-/* Accept button */
-.accept-btn{
-background:#198754;
-}
-
-.accept-btn:hover{
-background:#157347;
-}
-
-/* Delete button */
-.delete-btn{
-background:#dc3545;
-}
-
-.delete-btn:hover{
-background:#bb2d3b;
-}
-</style>
- 
+        @media(max-width:1024px){
+            .top-bar{ flex-direction: column; align-items:flex-start; }
+            .top-bar input[type=text]{ width:100%; }
+        }
+    </style>
 </head>
 <body>
-       <?php include('sidebar.php'); ?>
+     <?php include("sidebar.php"); ?>
 
-<div class="main">
+     <div class="main">
 
-<?php include('topbar.php'); ?>
-
-<div class="container mt-4">
-    <h4>Appointment Management</h4>
+    <?php include("topbar.php"); ?>
     
+<div class="container">
+    <h2>Appointment Management</h2>
 
     <!-- Search Form -->
-    <form method="GET" class="mb-3 d-flex">
-        <input type="text" name="search" class="form-control me-2" placeholder="Search Patient Name..." value="<?= htmlspecialchars($search); ?>">
-        <button type="submit" class="btn btn-primary">Search</button>
+    <form method="GET" class="mb-3 top-bar">
+        <input type="text" name="search" placeholder="Search Patient Name..." value="<?= htmlspecialchars($search); ?>">
+        <button type="submit">Search</button>
     </form>
 
     <!-- Appointments Table -->
-    <div class="table-container">
-
-<table class="data-table">
-
-<thead>
-<tr>
-<th>#</th>
-<th>Patient Name</th>
-<th>Doctor Name</th>
-<th>Requested Date</th>
-<th>Preferred Time</th>
-<th>Status</th>
-<th>Confirmed By</th>
-<th>Confirmation Date</th>
-<th>Actions</th>
-</tr>
-</thead>
-
-<tbody>
-
-<?php if(mysqli_num_rows($result) > 0): 
-$counter = 1;
-while($row = mysqli_fetch_assoc($result)): ?>
-
-<tr>
-
-<td><?= $counter++; ?></td>
-
-<td><?= htmlspecialchars($row['patient_first'].' '.$row['patient_last']); ?></td>
-
-<td><?= htmlspecialchars($row['doctor_name']); ?></td>
-
-<td><?= date('d M Y', strtotime($row['requested_date'])); ?></td>
-
-<td><?= htmlspecialchars($row['preferred_time']); ?></td>
-
-<td><?= htmlspecialchars($row['confirmation_status']); ?></td>
-
-<td><?= htmlspecialchars($row['confirmation_by']); ?></td>
-
-<td><?= $row['confirmation_date'] ? date('d M Y ', strtotime($row['confirmation_date'])) : '-'; ?></td>
-
-<td class="action-cell">
-
-<?php if($row['confirmation_status'] !== 'Confirmed'): ?>
-
-<a href="?confirm=<?= $row['appointment_id']; ?>" class="action-btn accept-btn">
-Accept
-</a>
-
-<?php endif; ?>
-
-<a href="?delete=<?= $row['appointment_id']; ?>"
-onclick="return confirm('Delete this appointment?')"
-class="action-btn delete-btn">
-Delete
-</a>
-
-</td>
-
-</tr>
-
-<?php endwhile; else: ?>
-
-<tr>
-<td colspan="9" style="text-align:center;">No appointments found.</td>
-</tr>
-
-<?php endif; ?>
-
-</tbody>
-</table>
-
-</div>
+    <table>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Patient Name</th>
+                <th>Doctor Name</th>
+                <th>Requested Date</th>
+                <th>Preferred Time</th>
+                <th>Status</th>
+                <th>Confirmed By</th>
+                <th>Confirmation Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        <?php if(mysqli_num_rows($result) > 0): 
+            $counter = 1;
+            while($row = mysqli_fetch_assoc($result)): ?>
+            <tr>
+                <td><?= $counter++; ?></td>
+                <td><?= htmlspecialchars($row['patient_first'].' '.$row['patient_last']); ?></td>
+                <td><?= htmlspecialchars($row['doctor_name']); ?></td>
+                <td><?= date('d M Y', strtotime($row['requested_date'])); ?></td>
+                <td><?= htmlspecialchars($row['preferred_time']); ?></td>
+                <td><?= htmlspecialchars($row['confirmation_status']); ?></td>
+                <td><?= htmlspecialchars($row['confirmation_by']); ?></td>
+                <td><?= $row['confirmation_date'] ? date('d M Y H:i', strtotime($row['confirmation_date'])) : '-'; ?></td>
+                <td>
+                    <?php if($row['confirmation_status'] !== 'Confirmed'): ?>
+                        <a href="?confirm=<?= $row['appointment_id']; ?>">Confirm</a>
+                    <?php endif; ?>
+                    <a href="?delete=<?= $row['appointment_id']; ?>" onclick="return confirm('Delete this appointment?')">Delete</a>
+                </td>
+            </tr>
+        <?php endwhile; else: ?>
+            <tr>
+                <td colspan="9" class="text-center">No appointments found.</td>
+            </tr>
+        <?php endif; ?>
+        </tbody>
+    </table>
 </div>
 </body>
 </html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Inventory Management | Medical Center</title>
+    <link rel="stylesheet" href="inventory mange.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body>
+
+<div class="container">
+
+    <!-- Page Title -->
+    <h2><i class="fas fa-boxes-stacked"></i> Inventory Management</h2>
+
+    <!-- Top Actions -->
+    <div class="top-actions">
+        <button class="add">
+            <i class="fas fa-plus"></i> Add Item
+        </button>
+
+        <div class="search">
+            <input type="text" placeholder="Search item...">
+            <button><i class="fas fa-search"></i></button>
+        </div>
+    </div>
+
+    <!-- Inventory Table -->
+    <div class="table-box">
+        <table>
+            <thead>
+                <tr>
+                    <th>Item ID</th>
+                    <th>Item Name</th>
+                    <th>Category</th>
+                    <th>Quantity</th>
+                    <th>Unit Price</th>
+                    <th>Expiry Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>#M101</td>
+                    <td>Paracetamol</td>
+                    <td>Medicine</td>
+                    <td>120</td>
+                    <td>Rs. 25</td>
+                    <td>2026-05-10</td>
+                    <td class="in-stock">Total item</td>
+                    <td>
+                        <button class="edit">Edit</button>
+                        <button class="delete">Delete</button>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>#E205</td>
+                    <td>Syringe</td>
+                    <td>Equipment</td>
+                    <td>15</td>
+                    <td>Rs. 150</td>
+                    <td>-</td>
+                    <td class="low-stock">Out of Stock</td>
+                    <td>
+                        <button class="edit">Edit</button>
+                        <button class="delete">Delete</button>
+                    </td>
+                     <tr>
+                    <td>#E205</td>
+                    <td>Syringe</td>
+                    <td>Equipment</td>
+                    <td>15</td>
+                    <td>Rs. 150</td>
+                    <td>-</td>
+                    <td class="low-stock"> Expire Item</td>
+                    <td>
+                        <button class="edit">Edit</button>
+                        <button class="delete">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+</body>
+</html>

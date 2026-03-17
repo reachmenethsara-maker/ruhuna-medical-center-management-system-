@@ -1,0 +1,204 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 220px;
+    height: 100vh;
+    background: linear-gradient(180deg, #1e3a8a, #1e40af);
+    color: #fff;
+    position: fixed;
+    transition: 0.3s;
+    overflow-y: auto;
+}
+
+/* Logo */
+.logo {
+    text-align: center;
+    padding: 20px 0;
+}
+
+.logo img {
+    width: 60px;
+    height: 60px;
+    border: 3px solid #fff;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 8px;
+}
+
+/* Sidebar Menu */
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar ul li a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 20px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 500;
+    border-radius: 10px;
+    transition: all 0.3s;
+}
+
+.sidebar ul li a i {
+    font-size: 18px;
+    min-width: 25px;
+    text-align: center;
+}
+
+.sidebar ul li a:hover {
+    background: rgba(255, 255, 255, 0.2);
+    padding-left: 24px;
+}
+
+.sidebar ul li.active a {
+    background: #fff;
+    color: #0d6efd;
+    font-weight: 600;
+}
+
+.sidebar ul li.active a i {
+    color: #0d6efd;
+}
+.sidebar ul li a.active {
+    background: #ffffff;
+    color: #0d6efd;
+    font-weight: 600;
+}
+
+.sidebar ul li a.active i {
+    color: #0d6efd;
+}
+
+.logout a {
+    color: #ff6b6b;
+}
+
+/* Main Content Area */
+.main {
+    margin-left: 220px;
+    background: #f5f7fb;
+    min-height: 100vh;
+    transition: 0.3s;
+    padding: 20px;
+}
+
+/* Topbar */
+.topbar {
+    background: #1e3a8a;
+    color: white;
+    padding: 15px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Topbar Right Section */
+.top-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Add User Button */
+.add-user-btn {
+    background: #16a34a;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.add-user-btn:hover {
+    background: #15803d;
+}
+
+/* Admin Name */
+.admin-name {
+    font-weight: 600;
+    font-size: 15px;
+}
+
+/* Dashboard Cards */
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    padding: 20px 0;
+}
+
+.card {
+    background: white;
+    border-radius: 16px;
+    padding: 25px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.card i {
+    font-size: 36px;
+    margin-bottom: 12px;
+}
+
+.card h2 {
+    margin-bottom: 8px;
+    font-size: 18px;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* Card Icon Colors */
+.blue i { color: #2563eb; }
+.green i { color: #16a34a; }
+.orange i { color: #f97316; }
+.red i { color: #dc2626; }
+
+/* Responsive */
+@media(max-width: 992px) {
+    .sidebar {
+        width: 180px;
+    }
+    .main {
+        margin-left: 180px;
+    }
+}
+
+@media(max-width: 768px) {
+    .sidebar {
+        width: 100%;
+        height: auto;
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        overflow-x: auto;
+    }
+    .main {
+        margin-left: 0;
+    }
+    .cards {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        padding: 10px 0;
+        gap: 15px;
+    }
+}
